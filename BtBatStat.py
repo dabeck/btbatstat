@@ -87,10 +87,10 @@ class Timer(NSObject):
     #Check for updates
     checkForUpdates()
 
-  def ioreg(self, key, flags):
-    return subprocess.Popen(["/usr/sbin/ioreg", flags, key], stdout=subprocess.PIPE).communicate()[0]
+  def ioregKey_flags_(self, key, flags):
+    return subprocess.Popen(["/usr/sbin/ioreg", flags, key], stdout=subprocess.PIPE, encoding='utf-8').communicate()[0]
 
-  def createBarItem(self, icon):
+  def createBarItem_(self, icon):
     barItem = self.statusbar.statusItemWithLength_(NSVariableStatusItemLength)
     barItem.setImage_(icon)
     barItem.setHighlightMode_(1)
@@ -103,12 +103,12 @@ class Timer(NSObject):
     if options.debug:
       start = time.time()
 
-    deviceCmd = dict( mightyMouse = self.ioreg("AppleBluetoothHIDMouse","-rc"),
-        magicMouse = self.ioreg("BNBMouseDevice","-rc"),
-        magicTrackpad = self.ioreg("BNBTrackpadDevice","-rc"))
-    deviceCmd['kb'] = self.ioreg("AppleBluetoothHIDKeyboard","-rc")
+    deviceCmd = dict( mightyMouse = self.ioregKey_flags_("AppleBluetoothHIDMouse","-rc"),
+        magicMouse = self.ioregKey_flags_("BNBMouseDevice","-rc"),
+        magicTrackpad = self.ioregKey_flags_("BNBTrackpadDevice","-rc"))
+    deviceCmd['kb'] = self.ioregKey_flags_("AppleBluetoothHIDKeyboard","-rc")
     if not deviceCmd['kb']:
-        deviceCmd['kb'] = self.ioreg("IOAppleBluetoothHIDDriver","-n")
+        deviceCmd['kb'] = self.ioregKey_flags_("IOAppleBluetoothHIDDriver","-n")
 
     for device,Output in list(deviceCmd.items()):
       Percentage = 0
@@ -124,7 +124,7 @@ class Timer(NSObject):
             self.menu.removeItem_(self.menuNotice)
             self.noDevice = None
           if not device in self.barItem:
-            self.barItem[device] = self.createBarItem(self.barImage[device])
+            self.barItem[device] = self.createBarItem_(self.barImage[device])
           self.barItem[device].setTitle_(Percentage.group(1) + '%')
 
       if device in self.barItem and not Percentage:
@@ -137,7 +137,7 @@ class Timer(NSObject):
     if self.devicesFound == 0 and self.noDevice == None:
       self.menuNotice = NSMenuItem.alloc().initWithTitle_action_keyEquivalent_('BtBatStat: No devices found.', '', '')
       self.menu.insertItem_atIndex_(self.menuNotice,0)
-      self.noDevice = self.createBarItem(self.noDeviceImage)
+      self.noDevice = self.createBarItem_(self.noDeviceImage)
 
     if options.debug:
       end = time.time()
