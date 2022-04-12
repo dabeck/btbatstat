@@ -103,29 +103,47 @@ class Timer(NSObject):
     if options.debug:
       start = time.time()
 
-    deviceCmd = dict( mightyMouse = self.ioregKey_flags_("AppleBluetoothHIDMouse","-rc"),
-        magicMouse = self.ioregKey_flags_("BNBMouseDevice","-rc"),
-        magicTrackpad = self.ioregKey_flags_("BNBTrackpadDevice","-rc"))
-    deviceCmd['kb'] = self.ioregKey_flags_("AppleBluetoothHIDKeyboard","-rc")
-    if not deviceCmd['kb']:
-        deviceCmd['kb'] = self.ioregKey_flags_("IOAppleBluetoothHIDDriver","-n")
+    devicesOutput = self.ioregKey_flags_("AppleHSBluetoothDevice","-rln")
 
-    for device,Output in list(deviceCmd.items()):
-      Percentage = 0
-      if Output:
-        Percentage = re.search('BatteryPercent" = (\d{1,2}0?)', Output)
-        if Percentage:
-          self.hit = True
+    devices = dict()
+    currentDevice = ""
+    for device in re.finditer('^  \|   "Product" = "(.+)"|"BatteryPercent" = (\d{1,2}0?)', devicesOutput, re.MULTILINE):
+      deviceName = device.group(1)
+      deviceBattery = device.group(2)
+
+      if deviceName:
+        if "Keyboard" in deviceName:
           if options.debug:
-            print("Found " + device)
-          self.devicesFound += 1
-          if self.noDevice is not None:
-            self.statusbar.removeStatusItem_(self.noDevice)
-            self.menu.removeItem_(self.menuNotice)
-            self.noDevice = None
-          if not device in self.barItem:
-            self.barItem[device] = self.createBarItem_(self.barImage[device])
-          self.barItem[device].setTitle_(Percentage.group(1) + '%')
+            print("Found Keyboard:", deviceName)
+          currentDevice = "kb"
+          continue
+        elif "Mouse" in deviceName:
+          currentDevice = "magicMouse"
+          if options.debug:
+            print("Found Mouse:", deviceName)
+        elif "Trackpad" in deviceName:
+          currentDevice = "magicTrackpad"
+          if options.debug:
+            print("Found Trackpad:", deviceName)
+        continue
+
+      if deviceBattery:
+        devices[currentDevice] = deviceBattery
+
+
+    for device,Percentage in list(devices.items()):
+      if Percentage:
+        self.hit = True
+        if options.debug:
+          print("Found " + device)
+        self.devicesFound += 1
+        if self.noDevice is not None:
+          self.statusbar.removeStatusItem_(self.noDevice)
+          self.menu.removeItem_(self.menuNotice)
+          self.noDevice = None
+        if not device in self.barItem:
+          self.barItem[device] = self.createBarItem_(self.barImage[device])
+        self.barItem[device].setTitle_(Percentage + '%')
 
       if device in self.barItem and not Percentage:
             self.statusbar.removeStatusItem_(self.barItem[device])
