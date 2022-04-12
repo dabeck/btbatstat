@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=`grep '^VERSION' BtBatStat.py | sed -e "s/[A-Za-z=\s\ \']//g"`
+VERSION=$(grep '^VERSION' BtBatStat.py | sed -e "s/[A-Za-z=\s\ \']//g")
 cat > setup.py << EOF
 from setuptools import setup
 
