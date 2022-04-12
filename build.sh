@@ -31,12 +31,6 @@ if [ -d dist ] ; then
 fi
 
 #Build App
-python setup.py py2app
+python3 setup.py py2app
 
-#Zip App
-cd dist
-zip -r ~/Desktop/BtBatStat.zip BtBatStat.app
-
-#Remove build crap
-cd ..
-rm -rf dist build setup.py
+rm -rf build setup.py
