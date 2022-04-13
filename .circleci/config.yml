@@ -27,7 +27,7 @@ jobs:
           name: Package Apple Silicon
           command: zip -r ./artifacts/BtBatStat_AppleSilicon.zip ./dist/BtBatStat.app
       - store_artifacts:
-          path: ./artifacts/*
+          path: ./artifacts
 workflows:
   build-and-package:
     jobs:
