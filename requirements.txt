@@ -1,2 +1,3 @@
-py2app
-pyobjc
+py2app==0.28
+pyobjc==8.4.1
+pyobjc-core==8.4.1
