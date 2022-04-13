@@ -4,7 +4,6 @@ jobs:
   build-and-package:
     macos:
       xcode: 12.5.1
-    working_directory: /tmp
     steps:
       - checkout
       - run:
@@ -12,9 +11,9 @@ jobs:
           command: make
       - run:
           name: Package
-          command: zip -r BtBatStat.zip ./dist/BtBatStat.app
+          command: zip -r ./BtBatStat.zip ./dist/BtBatStat.app
       - store_artifacts:
-          path: /tmp/BtBatStat.zip
+          path: ./BtBatStat.zip
 workflows:
   sample:
     jobs:
