@@ -7,13 +7,25 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Build Application
-          command: make
+          name: Build Universal Application
+          command: make ARCH=universal2
       - run:
-          name: Package
-          command: zip -r ./BtBatStat.zip ./dist/BtBatStat.app
+          name: Package Universal
+          command: zip -r ./BtBatStat_Universal.zip ./dist/BtBatStat.app
+      - run:
+          name: Build Intel Application
+          command: make ARCH=x86_64
+      - run:
+          name: Package Intel
+          command: zip -r ./BtBatStat_Intel.zip ./dist/BtBatStat.app
+      - run:
+          name: Build Apple Silicon Application
+          command: make ARCH=arm64
+      - run:
+          name: Package Apple Silicon
+          command: zip -r ./BtBatStat_AppleSilicon.zip ./dist/BtBatStat.app
       - store_artifacts:
-          path: ./BtBatStat.zip
+          path: ./*.zip
 workflows:
   build-and-package:
     jobs:
