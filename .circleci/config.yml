@@ -11,7 +11,9 @@ jobs:
           command: make ARCH=universal2
       - run:
           name: Package Universal
-          command: zip -r ./artifacts/BtBatStat_Universal.zip ./dist/BtBatStat.app
+          command: |
+            mkdir artifacts
+            zip -r ./artifacts/BtBatStat_Universal.zip ./dist/BtBatStat.app
       - run:
           name: Build Intel Application
           command: make ARCH=x86_64
