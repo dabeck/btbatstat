@@ -1,1 +1,2 @@
-PyObjC
+py2app
+pyobjc
