@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 VERSION=$(grep '^VERSION' BtBatStat.py | sed -e "s/[A-Za-z=\s\ \']//g")
 cat > setup.py << EOF
@@ -21,16 +21,3 @@ setup(
     setup_requires=["py2app"],
 )
 EOF
-
-#Remove build crap if exists
-if [ -d build ] ; then 
-	rm -rf build
-fi
-if [ -d dist ] ; then
-	rm -rf dist
-fi
-
-#Build App
-python3 setup.py py2app
-
-rm -rf build setup.py
