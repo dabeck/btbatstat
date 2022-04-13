@@ -8,6 +8,10 @@ PACKAGE = BtBatStat
 SYSTEM_PYTHON  = $(or $(shell which python3), $(shell which python))
 PYTHON         = $(or $(wildcard venv/bin/python3), $(SYSTEM_PYTHON))
 
+BUILDARCH?=$(shell uname -m)
+# unless otherwise set, I am building for my own architecture, i.e. not cross-compiling
+ARCH ?= $(BUILDARCH)
+
 all: clean venv deps build
 
 .PHONY: all venv deps setup build clean install
@@ -23,7 +27,7 @@ setup:
 		./setup.sh
 
 build: setup
-		$(PYTHON) setup.py py2app
+		$(PYTHON) setup.py py2app --arch $(ARCH)
 
 clean:
 		rm -rf venv
