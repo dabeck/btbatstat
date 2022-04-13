@@ -15,6 +15,6 @@ jobs:
       - store_artifacts:
           path: ./BtBatStat.zip
 workflows:
-  sample:
+  build-and-package:
     jobs:
       - build-and-package
