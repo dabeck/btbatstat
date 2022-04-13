@@ -1,0 +1,16 @@
+version: 2.1
+
+jobs:
+  build:
+    macos:
+      xcode: 12.5.1
+    steps:
+      - checkout
+      - run:
+          name: Build Application
+          command: make
+
+workflows:
+  sample:
+    jobs:
+      - build
