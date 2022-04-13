@@ -11,21 +11,21 @@ jobs:
           command: make ARCH=universal2
       - run:
           name: Package Universal
-          command: zip -r ./BtBatStat_Universal.zip ./dist/BtBatStat.app
+          command: zip -r ./artifacts/BtBatStat_Universal.zip ./dist/BtBatStat.app
       - run:
           name: Build Intel Application
           command: make ARCH=x86_64
       - run:
           name: Package Intel
-          command: zip -r ./BtBatStat_Intel.zip ./dist/BtBatStat.app
+          command: zip -r ./artifacts/BtBatStat_Intel.zip ./dist/BtBatStat.app
       - run:
           name: Build Apple Silicon Application
           command: make ARCH=arm64
       - run:
           name: Package Apple Silicon
-          command: zip -r ./BtBatStat_AppleSilicon.zip ./dist/BtBatStat.app
+          command: zip -r ./artifacts/BtBatStat_AppleSilicon.zip ./dist/BtBatStat.app
       - store_artifacts:
-          path: ./*.zip
+          path: ./artifacts/*
 workflows:
   build-and-package:
     jobs:
