@@ -1,8 +1,12 @@
+
 import subprocess,re,time,sys,webbrowser,urllib.request,urllib.error,urllib.parse,decimal
 from Foundation import NSDate,NSObject,NSTimer,NSRunLoop,NSDefaultRunLoopMode
 from AppKit import NSImage,NSStatusBar,NSMenuItem,NSApplication,NSMenu,NSVariableStatusItemLength,NSRunAlertPanel
 from PyObjCTools import AppHelper
 from optparse import OptionParser
+
+MIN_PYTHON = (3, 9)
+assert sys.version_info >= MIN_PYTHON, f"requires Python {'.'.join([str(n) for n in MIN_PYTHON])} or newer"
 
 if len(sys.argv) > 1 and sys.argv[1][:4] == '-psn':
   del sys.argv[1]
