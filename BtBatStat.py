@@ -92,7 +92,7 @@ class Timer(NSObject):
     checkForUpdates()
 
   def ioregKey_flags_(self, key, flags):
-    return subprocess.Popen(["/usr/sbin/ioreg", flags, key], stdout=subprocess.PIPE, encoding='utf-8').communicate()[0]
+    return subprocess.Popen(["/usr/sbin/ioreg", flags, key], stdout=subprocess.PIPE, encoding='ISO-8859-1').communicate()[0]
 
   def createBarItem_(self, icon):
     barItem = self.statusbar.statusItemWithLength_(NSVariableStatusItemLength)
