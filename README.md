@@ -1,5 +1,7 @@
 # BtBatStat
 
+[![CircleCI](https://circleci.com/gh/dabeck/btbatstat/tree/master.svg?style=shield)](https://circleci.com/gh/dabeck/btbatstat/tree/master)
+
 Simple OSX app that shows the battery status of your Apple bluetooth mouse and keyboard in the menu bar.
 
 ## Supported devices
